@@ -138,15 +138,19 @@ public class CoffeeController implements Initializable {
         kode.setPromptText("Kode ");
         kode.setText(kopi.getKode());
         kode.requestFocus();
+        if (edit) kode.setDisable(true);
         TextField namapembeli = new TextField();
         namapembeli.setPromptText("Nama ");
         namapembeli.setText(kopi.getNamapembeli());
+        if (edit) namapembeli.setDisable(true);
         TextField namabrg = new TextField();
         namabrg.setPromptText("Kode ");
         namabrg.setText(kopi.getNamabrg());
+        if (edit) namabrg.setDisable(true);
         TextField jumlah = new TextField();
         jumlah.setPromptText("Nama ");
         jumlah.setText(kopi.getJumlah());
+        if (edit) jumlah.setDisable(true);
 
 
         grid.add(new Label("Kode:"), 0, 0);
@@ -159,7 +163,15 @@ public class CoffeeController implements Initializable {
         grid.add(jumlah, 1, 3);
 
         dialog.getDialogPane().setContent(grid);
-        
+                Platform.runLater(txtnama::requestFocus);
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == okButtonType) {
+                return new Kopi(kode.getText(), namapembeli.getText(),namabrg.getText(),jumlah.getText());
+            }
+            return null;
+        });
 
         Optional<Kopi> result = dialog.showAndWait();
         return result;
